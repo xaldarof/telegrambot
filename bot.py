@@ -7,10 +7,9 @@ api_key = "ecdda7f610b72f3e111a6ee021d7f234"
 bot = telebot.TeleBot(token)
 
 
-
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id,"Xayir")
+    bot.send_message(message.chat.id, "Xayir")
 
 
 @bot.message_handler(content_types=["text"])
@@ -19,6 +18,7 @@ def echo(message):
 
     if response.status_code == 200:
         formatted = json.loads(response.text)
+        bot.send_message(message.chat.id,f"Информация о городе : {message.text} : \n {formatted}")
     else:
         bot.send_message(message.chat.id, "Данный город не найден 😪")
 
