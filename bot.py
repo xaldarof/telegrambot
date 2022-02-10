@@ -24,12 +24,9 @@ def echo(message):
 
     if response.status_code == 200:
         formatted = json.loads(response.text)
-        dateTimeSunset = time.datetime.fromtimestamp(formatted['sys']['sunrise']).time()
-        dateTimeSunrise = time.datetime.fromtimestamp(formatted['sys']['sunset']).time()
+        dateTimeSunset = time.datetime.fromtimestamp(formatted['sys']['sunrise']).strftime('%H:%M:%S')
+        dateTimeSunrise = time.datetime.fromtimestamp(formatted['sys']['sunset']).strftime('%H:%M:%S')
 
-
-
-        import datetime
         done = f"Информация о городе : \n🔎 {message.text}\n" \
                f"\n😊 Температура  : {formatted['main']['temp']}" \
                f"\n❤ Ощущается : {formatted['main']['feels_like']}" \
@@ -40,7 +37,8 @@ def echo(message):
                f"\n🌘 Закат : {dateTimeSunrise}"
 
         for key, value in dict.items():
-            buttons.append([InlineKeyboardButton(text=key, url=f"https://maps.google.com/?q={formatted['coord']['lat']},{formatted['coord']['lon']}")])
+            buttons.append([InlineKeyboardButton(text=key,
+                                                 url=f"https://maps.google.com/?q={formatted['coord']['lat']},{formatted['coord']['lon']}")])
 
             keyboard = InlineKeyboardMarkup(buttons)
             bot.send_message(message.chat.id, reply_markup=keyboard, text=done)
