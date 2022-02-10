@@ -12,8 +12,8 @@ bot = telebot.TeleBot(token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, "Salom bu bot Xoldarov Temur tomonidan yaratildi\n\n"
-                                      "Bu botga Shahar nomini yozing va ob-xavo xaqida malumot oling")
+    bot.send_message(message.chat.id, f"Привет {message.chat.first_name} этот бот был создан Темуром\n\n"
+                                      "Отправьте мне имя места и получи информацию о погоде...😊")
 
 
 @bot.message_handler(content_types=["text"])
