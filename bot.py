@@ -7,6 +7,7 @@ api_key = "ecdda7f610b72f3e111a6ee021d7f234"
 bot = telebot.TeleBot(token)
 
 
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id,"Salom")
