@@ -24,7 +24,7 @@ def echo(message):
 
 
 def request_to_api(city):
-    response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}")
+    response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric")
     return response
 
 
