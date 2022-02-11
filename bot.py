@@ -49,7 +49,8 @@ def echo(message):
 
         else:
             bot.send_message(message.chat.id, "Данный город не найден 😪")
-
+    else:
+        bot.reply_to(message,"😊 Для поиска вы должны начать слово с /")
 
 def request_to_api(city):
     response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric")
