@@ -24,8 +24,8 @@ def echo(message):
 
     if response.status_code == 200:
         formatted = json.loads(response.text)
-        dateTimeSunset = time.datetime.fromtimestamp((formatted['sys']['sunrise'])).strftime('%H:%M:%S')
-        dateTimeSunrise = time.datetime.fromtimestamp(formatted['sys']['sunset']).strftime('%H:%M:%S')
+        dateTimeSunset = time.datetime.fromtimestamp((formatted['sys']['sunrise']) + 18_000_000).strftime('%H:%M:%S')
+        dateTimeSunrise = time.datetime.fromtimestamp((formatted['sys']['sunset']) + 18_000_000).strftime('%H:%M:%S')
 
         done = f"Информация о городе : \n🔎 {message.text}\n" \
                f"\n😊 Температура  : {formatted['main']['temp']}" \
