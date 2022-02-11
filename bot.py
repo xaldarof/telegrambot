@@ -19,8 +19,8 @@ def start_message(message):
 
 @bot.message_handler(content_types=["text"])
 def echo(message):
-    if message.text.startWith("/"):
-        response = request_to_api(message.text)
+    if message.text.startswith('/'):
+        response = request_to_api(message.text.replace("/",""))
         dict = {"Открыть на карте": "John"}
         buttons = []
 
@@ -50,7 +50,9 @@ def echo(message):
         else:
             bot.send_message(message.chat.id, "Данный город не найден 😪")
     else:
-        bot.reply_to(message,"😊 Для поиска вы должны начать слово с /")
+        bot.reply_to(message, "😊 Для поиска вы должны начать слово с /\n\n"
+                              "Например : /New York")
+
 
 def request_to_api(city):
     response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric")
