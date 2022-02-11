@@ -5,9 +5,11 @@ import requests
 import telebot
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 import datetime as time
+import os
 
-token = "5160537118:AAHr2RUc4bUkfy9mAzFVl_Fa-i3JGfQp_Ek"
-api_key = "ecdda7f610b72f3e111a6ee021d7f234"
+api_key = os.getenv("apiKey", "")
+token = os.getenv("token", "")
+
 bot = telebot.TeleBot(token)
 
 
@@ -20,7 +22,7 @@ def start_message(message):
 @bot.message_handler(content_types=["text"])
 def echo(message):
     if message.text.startswith('/'):
-        response = request_to_api(message.text.replace("/",""))
+        response = request_to_api(message.text.replace("/", ""))
         dict = {"Открыть на карте": "John"}
         buttons = []
 
@@ -36,9 +38,6 @@ def echo(message):
                    f"\n❤ Ощущается : {formatted['main']['feels_like']}" \
                    f"\n🤷‍ Мин. температура :  {formatted['main']['temp_min']}" \
                    f"\n😃 Макс. температура :  {formatted['main']['temp_max']}" \
-                   f"\n🌪 Скорость ветра : {formatted['wind']['speed']} " \
-                   f"\n🌞 Восход солнца :  {dateTimeSunset}" \
-                   f"\n🌘 Закат : {dateTimeSunrise}"
 
             for key, value in dict.items():
                 buttons.append([InlineKeyboardButton(text=key,
