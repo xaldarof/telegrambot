@@ -19,35 +19,36 @@ def start_message(message):
 
 @bot.message_handler(content_types=["text"])
 def echo(message):
-    response = request_to_api(message.text)
-    dict = {"Открыть на карте": "John"}
-    buttons = []
+    if message.text.startWith("/"):
+        response = request_to_api(message.text)
+        dict = {"Открыть на карте": "John"}
+        buttons = []
 
-    if response.status_code == 200:
-        formatted = json.loads(response.text)
-        dateTimeSunset = time.datetime.fromtimestamp(
-            (formatted['sys']['sunrise'])).strftime('%H:%M:%S')
-        dateTimeSunrise = time.datetime.fromtimestamp(
-            (formatted['sys']['sunset'])).strftime('%H:%M:%S')
+        if response.status_code == 200:
+            formatted = json.loads(response.text)
+            dateTimeSunset = time.datetime.fromtimestamp(
+                (formatted['sys']['sunrise'])).strftime('%H:%M:%S')
+            dateTimeSunrise = time.datetime.fromtimestamp(
+                (formatted['sys']['sunset'])).strftime('%H:%M:%S')
 
-        done = f"Информация о городе : \n🔎 {message.text}\n" \
-               f"\n😊 Температура  : {formatted['main']['temp']}" \
-               f"\n❤ Ощущается : {formatted['main']['feels_like']}" \
-               f"\n🤷‍ Мин. температура :  {formatted['main']['temp_min']}" \
-               f"\n😃 Макс. температура :  {formatted['main']['temp_max']}" \
-               f"\n🌪 Скорость ветра : {formatted['wind']['speed']} " \
-               f"\n🌞 Восход солнца :  {dateTimeSunset}" \
-               f"\n🌘 Закат : {dateTimeSunrise}"
+            done = f"Информация о городе : \n🔎 {message.text}\n" \
+                   f"\n😊 Температура  : {formatted['main']['temp']}" \
+                   f"\n❤ Ощущается : {formatted['main']['feels_like']}" \
+                   f"\n🤷‍ Мин. температура :  {formatted['main']['temp_min']}" \
+                   f"\n😃 Макс. температура :  {formatted['main']['temp_max']}" \
+                   f"\n🌪 Скорость ветра : {formatted['wind']['speed']} " \
+                   f"\n🌞 Восход солнца :  {dateTimeSunset}" \
+                   f"\n🌘 Закат : {dateTimeSunrise}"
 
-        for key, value in dict.items():
-            buttons.append([InlineKeyboardButton(text=key,
-                                                 url=f"https://maps.google.com/?q={formatted['coord']['lat']},{formatted['coord']['lon']}&lang=ru")])
+            for key, value in dict.items():
+                buttons.append([InlineKeyboardButton(text=key,
+                                                     url=f"https://maps.google.com/?q={formatted['coord']['lat']},{formatted['coord']['lon']}&lang=ru")])
 
-            keyboard = InlineKeyboardMarkup(buttons)
-            bot.send_message(message.chat.id, reply_markup=keyboard, text=done)
+                keyboard = InlineKeyboardMarkup(buttons)
+                bot.send_message(message.chat.id, reply_markup=keyboard, text=done)
 
-    else:
-        bot.send_message(message.chat.id, "Данный город не найден 😪")
+        else:
+            bot.send_message(message.chat.id, "Данный город не найден 😪")
 
 
 def request_to_api(city):
